@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Expense Tracker</title>
+</head>
+<body>
+    <h1>Expenses: </h1>
+    <ul class="expenseItems">
+    <% for(let i=0; i < items.length; i++) {%>
+        <li class="item">
+            <% if(items[i].completed === true) {%>
+                <span class='completed'><%= items[i].thing %></span>
+            <% }else{ %>
+                <span><%= items[i].thing %></span>
+            <% } %>    
+            <span class='fa fa-trash'></span>
+        </li>
+    <% } %>
+    </ul>
+
+    <h2>Running total:</h2>
+
+    <h2>Add an expense:</h2>
+
+    <form action="/addExpense" method="POST">
+        <label for="transactionAmount">Transaction Amount</label>
+        <input type="number" placeholder="$" name="transactionAmount" id="transactionAmount" step="0.01">
+        <label for="transactionAmount">Transaction Date</label>
+        <input type="date" name="transactionDate" id="transactionDate">
+        <label for="transactionAmount">Description</label>
+        <input type="text" placeholder="Description" name="transactionDescription" id="transactionDescription">
+        <label for="transactionCategory">Category</label>
+        <input type="text" placeholder="Category" name="transactionCategory" id="transactionCategory">
+        <input type="submit">
+    </form>
+    
+
+    <script src='js/main.js'></script>
+</body>
+</html>
