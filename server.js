@@ -6,7 +6,8 @@ require('dotenv').config();
 
 let db,
     dbConnectionStr = process.env.DB_STRING,
-    dbName = 'expenses';
+    dbName = 'expense';
+    dbCollectionName = 'expenses'
 
 MongoClient.connect(dbConnectionStr, {useUnifiedTopology: true})
     .then(client =>{
@@ -19,6 +20,10 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+app.get('/', async(req, res)=>{
+    const expenseItems = await db.collection(dbCollectionName).find().toArray();
+    res.render('index.ejs', {documents: expenseItems})
+})
 
 app.listen(process.env.PORT || PORT, ()=>{
     console.log((`Server Running on Port ${PORT}...`));
