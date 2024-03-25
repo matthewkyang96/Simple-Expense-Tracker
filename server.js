@@ -22,7 +22,8 @@ app.use(express.json());
 
 app.get('/', async(req, res)=>{
     const expenseItems = await db.collection(dbCollectionName).find().toArray();
-    res.render('index.ejs', {documents: expenseItems})
+    const runningTotal = expenseItems.reduce((accum,curr) => accum += Number(curr.amount), 0)
+    res.render('index.ejs', {documents: expenseItems, runningTotal: runningTotal})
 });
 
 app.post('/addExpense', (req, res) => {

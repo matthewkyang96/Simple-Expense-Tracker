@@ -19,10 +19,24 @@
 </head>
 <body>
     <h1>Expenses: </h1>
-    <ul class="expenseItems">
-    </ul>
+    <table class="expense-table">
+        <tr>
+            <th>Transaction Date</th>
+            <th>Transaction Amount</th>
+            <th>Description</th>
+            <th>Category</th>
+        </tr>
+        <% for(let i = 0; i < documents.length; i++){%>
+            <tr>
+                <td><%=documents[i].date %></td>
+                <td>$<%=documents[i].amount %></td>
+                <td><%=documents[i].description %></td>
+                <td><%=documents[i].category %></td>
+            </tr>
+        <% } %> 
+    </table>
 
-    <h2>Running total:</h2>
+    <h2>Running total: $ <%= runningTotal %></h2>
 
     <h2>Add an expense:</h2>
 
