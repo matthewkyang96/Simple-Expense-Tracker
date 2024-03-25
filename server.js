@@ -19,3 +19,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+
+app.listen(process.env.PORT || PORT, ()=>{
+    console.log((`Server Running on Port ${PORT}...`));
+})
