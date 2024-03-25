@@ -23,6 +23,24 @@ app.use(express.json());
 app.get('/', async(req, res)=>{
     const expenseItems = await db.collection(dbCollectionName).find().toArray();
     res.render('index.ejs', {documents: expenseItems})
+});
+
+app.post('/addExpense', (req, res) => {
+    const transactionAmount = req.body.transactionAmount;
+    const transactionDate = req.body.transactionDate;
+    const transactionCategory = req.body.transactionCategory;
+    const transactionDescription = req.body.transactionDescription;
+    db.collection(dbCollectionName).insertOne({
+        amount: transactionAmount,
+        date: transactionDate,
+        category: transactionCategory,
+        description: transactionDescription
+    })
+    .then(result =>{
+        console.log('Expense Added');
+        res.redirect('/');
+    })
+    .catch(err => console.log(err));
 })
 
 app.listen(process.env.PORT || PORT, ()=>{
