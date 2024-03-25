@@ -28,9 +28,9 @@
 
     <form action="/addExpense" method="POST">
         <label for="transactionAmount">Transaction Amount</label>
-        <input type="number" placeholder="$" name="transactionAmount" id="transactionAmount" step="0.01">
+        <input type="number" placeholder="$" name="transactionAmount" id="transactionAmount" step="0.01" required>
         <label for="transactionDate">Transaction Date</label>
-        <input type="date" name="transactionDate" id="transactionDate">
+        <input type="date" name="transactionDate" id="transactionDate" required>
         <label for="transactionDescription">Description</label>
         <input type="text" placeholder="Description" name="transactionDescription" id="transactionDescription">
         <label for="transactionCategory">Category</label>
