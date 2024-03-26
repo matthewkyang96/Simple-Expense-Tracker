@@ -44,6 +44,19 @@ app.post('/addExpense', (req, res) => {
     .catch(err => console.log(err));
 })
 
+app.delete('/deleteEntry', async (req,res) =>{
+    try{
+        const result = db.collection(dbCollectionName).deleteOne({
+            date: req.body.extractedDate,
+            amount: req.body.extractedAmount,
+        })
+        console.log('Expense Entry Deleted');
+        res.json('Expense Entry Deleted')
+    } catch(err){
+        console.log(err);
+    }
+})
+
 app.listen(process.env.PORT || PORT, ()=>{
     console.log((`Server Running on Port ${PORT}...`));
 })
