@@ -4,3 +4,13 @@ form{
     gap: 10px;
     width: 500px;
 }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th{
+    border-bottom: 2px solid black;
+    width: 200px;
+}
