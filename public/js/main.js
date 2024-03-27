@@ -1,6 +1,7 @@
 const deleteButtons = document.querySelectorAll('#delete');
 const editButtons = document.querySelectorAll('#edit');
 const cancelButtons = document.querySelectorAll('#cancel')
+const updateButtons = document.querySelectorAll('#update')
 
 Array.from(deleteButtons).forEach((button)=>{
     button.addEventListener('click', deleteEntry);
@@ -12,6 +13,10 @@ Array.from(editButtons).forEach((button)=>{
 
 Array.from(cancelButtons).forEach((button)=>{
     button.addEventListener('click', cancelEdit);
+})
+
+Array.from(updateButtons).forEach((button)=>{
+    button.addEventListener('click', updateEntry);
 })
 
 async function deleteEntry(){
@@ -35,6 +40,48 @@ async function deleteEntry(){
     }
 }
 
+async function updateEntry(){
+    const trParentNode = this.parentNode.parentNode;
+
+    const prevDate = trParentNode.childNodes[1].innerText;
+    const newDate = trParentNode.childNodes[2].childNodes[0].value;
+
+    const prevAmount = trParentNode.childNodes[4].innerText;
+    const newAmount = trParentNode.childNodes[5].childNodes[0].value;
+
+    const prevDescription = trParentNode.childNodes[7].innerText;
+    const newDescription = trParentNode.childNodes[8].childNodes[0].value;
+
+    const prevCategory = trParentNode.childNodes[10].innerText;
+    const newCategory = trParentNode.childNodes[11].childNodes[0].value;
+
+    try{
+        const res = await fetch('updateEntry', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                'prevValues': {
+                    'date': prevDate,
+                    'amount': prevAmount,
+                    'description': prevDescription,
+                    'category': prevCategory,
+                },
+                'newValues': {
+                    'date': newDate,
+                    'amount': newAmount,
+                    'description': newDescription,
+                    'category': newCategory,
+                }
+            })
+        })
+        const data = await response.json();
+        console.log(data);
+        location.reload();
+    } catch(err){
+        console.log(err);
+    }
+}
+
 
 function editEntry(){
     const trParentNode = this.parentNode.parentNode;
@@ -48,26 +95,26 @@ function editEntry(){
     const newDate = document.createElement('input')
     newDate.type = 'date';
     newDate.value = prevDate.innerText;
-    trParentNode.replaceChild(newDate, prevDate)
+    activateInputField(prevDate, newDate)
     newValuesArr.push(newDate);
 
     const newAmount = document.createElement('input')
     newAmount.type = 'number';
     newAmount.step = '0.01';
     newAmount.value = normalizeNumberFormat(prevAmount.innerText)
-    trParentNode.replaceChild(newAmount, prevAmount)
+    activateInputField(prevAmount, newAmount)
     newValuesArr.push(newAmount);
 
     const newDescription = document.createElement('input');
     newDescription.type = 'text';
     newDescription.value = prevDescription.innerText;
-    trParentNode.replaceChild(newDescription, prevDescription)
+    activateInputField(prevDescription, newDescription)
     newValuesArr.push(newDescription);
 
     const newCategory = document.createElement('input');
     newCategory.type = 'text';
     newCategory.value = prevCategory.innerText;
-    trParentNode.replaceChild(newCategory, prevCategory)
+    activateInputField(prevCategory, newCategory)
     newValuesArr.push(newCategory);
 
     newValuesArr.forEach(elem => wrap(elem, 'td'));
@@ -97,4 +144,9 @@ function wrap(element, wrapper) {
     let wrappingElement = document.createElement(wrapper);
     element.parentNode.insertBefore(wrappingElement, element);
     wrappingElement.appendChild(element)
+}
+
+function activateInputField(prev, field){
+    prev.after(field);
+    prev.style = "display:none;"
 }
