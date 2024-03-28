@@ -21,7 +21,10 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.get('/', async(req, res)=>{
-    const expenseItems = await db.collection(dbCollectionName).find().toArray();
+    const expenseItems = await db.collection(dbCollectionName).find().toArray()
+    expenseItems.sort((a,b) =>{
+        return new Date(b.date) - new Date(a.date)
+    });
     const runningTotal = expenseItems.reduce((accum,curr) => accum += Number(curr.amount), 0);
     res.render('index.ejs', {documents: expenseItems, runningTotal: runningTotal})
 });
@@ -56,6 +59,31 @@ app.delete('/deleteEntry', async (req,res) =>{
         console.log(err);
     }
 })
+
+app.put('/updateEntry', (req,res)=> {
+    db.collection(dbCollectionName).updateOne({
+        date: req.body.prevValues.date,
+        amount: req.body.prevValues.amount,
+        description: req.body.prevValues.description,
+        category: req.body.prevValues.category
+    },{
+        $set:{
+            date: req.body.newValues.date,
+            amount: req.body.newValues.amount,
+            description: req.body.newValues.description,
+            category: req.body.newValues.category
+        }
+    },{
+            sort: {date: 1},
+            upsert: false
+        })
+        .then(result =>{
+            console.log('Entry Updated');
+            res.json('Entry Updated')
+        })
+        .catch(err => console.log(err))
+    }
+)
 
 app.listen(process.env.PORT || PORT, ()=>{
     console.log((`Server Running on Port ${PORT}...`));

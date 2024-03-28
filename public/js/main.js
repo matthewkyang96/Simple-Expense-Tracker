@@ -46,7 +46,7 @@ async function updateEntry(){
     const prevDate = trParentNode.childNodes[1].innerText;
     const newDate = trParentNode.childNodes[2].childNodes[0].value;
 
-    const prevAmount = trParentNode.childNodes[4].innerText;
+    const prevAmount = normalizeNumberFormat(trParentNode.childNodes[4].innerText);
     const newAmount = trParentNode.childNodes[5].childNodes[0].value;
 
     const prevDescription = trParentNode.childNodes[7].innerText;
@@ -74,7 +74,7 @@ async function updateEntry(){
                 }
             })
         })
-        const data = await response.json();
+        const data = await res.json();
         console.log(data);
         location.reload();
     } catch(err){
