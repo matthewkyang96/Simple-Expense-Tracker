@@ -33,7 +33,7 @@ A simple Create, Read, Update, and Delete (CRUD) web application to track simple
 ```
 3. Create MongoDB database and get your unique connection string at https://www.mongodb.com/
 4. Create a `.env` file and enter your unique connection string with the following format
-```sh
+```js
     DB_STRING = 'ENTER YOUR UNIQUE CONNECTION DB STRING'
 ```
 5. Run the application
